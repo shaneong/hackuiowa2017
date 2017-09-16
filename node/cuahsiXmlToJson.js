@@ -29,7 +29,7 @@ request.post(
     endDate: ''
   } },
   function (error, response, body) {
-      var parser = require('xml-js');      
+      var parser = require('xml-js');
       var json = parser.xml2json(body, {compact: false, spaces: 2 });
       console.log(json);
   }
@@ -54,7 +54,7 @@ request.post(
     endDate: ''
   } },
   function (error, response, body) {
-      var parser2 = require('xml-js');      
+      var parser2 = require('xml-js');
       var json = parser2.xml2json(body, {compact: false, spaces: 2 });
       console.log(json);
   }
@@ -67,7 +67,7 @@ request.post(
   } },
   function (error, response, body) {
     // console.log(body);
-    var parser2 = require('xml-js');      
+    var parser2 = require('xml-js');
     var json = parser2.xml2json(body, {compact: false, spaces: 2 });
     console.log(json);
   }
