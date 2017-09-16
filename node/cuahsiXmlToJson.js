@@ -1,17 +1,38 @@
-var http = require('http');
+var request = require('request');
 
 var options = {
-  host: 'hiscentral.cuahsi.org',
-  port: 80,
-  path: '/webservices/hiscentral.asmx/GetSeriesMetadataCountOrData?getData=string&getFacetOnCV=string&xmin=string&xmax=string&ymin=string&ymax=string&sampleMedium=string&dataType=string&valueType=string&generalCategory=string&conceptKeyword=string&networkIDs=string&beginDate=string&endDate=string'
+  url: 'http://hiscentral.cuahsi.org/webservices/hiscentral.asmx/GetSites',
+  method: 'POST',
+  qs: {
+    xmin: 10,
+    xmax: 100,
+    ymin: 10,
+    ymax: 100,
+  }
 };
 
-http.get(options, function(res) {
-  console.log("Got response: " + res.statusCode);
-  console.log(res);
-  res.on("data", function(chunk) {
-    console.log("BODY: " + chunk);
-  });
-}).on('error', function(e) {
-  console.log("Got error: " + e.message);
-});
+// request(options, function(err, res, body) {
+//   console.log(options)
+//   console.log(body);
+// });
+
+request.post(
+  'http://hiscentral.cuahsi.org/webservices/hiscentral.asmx/GetSites',
+  { form: {
+    xmin: '10',
+    xmax: '100',
+    ymin: '10',
+    ymax: '100',
+    conceptKeyword: '',
+    networkIDs: '',
+    beginDate: '',
+    endDate: ''
+  } },
+  function (error, response, body) {
+      var parser = require('xml2json');      
+      var json = parser.toJson(body);
+      console.log(json);
+
+  }
+);
+

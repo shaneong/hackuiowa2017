@@ -1,0 +1,18 @@
+all the APIs trying to work on:
+
+Cuahsi:
+
+    baseUrl: hiscentral.cuahsi.org/webservices/hiscentral.asmx
+    documentation: https://www.cuahsi.org/data-models/for-developers/his-catalog-api-documentation
+    try and see if we could use GetSeriesMetadataCountOrData and GetSites
+
+note: for this one, we need to get meta data and site locations.
+
+
+USGS:
+
+    baseUrl: http://waterservices.usgs.gov/nwis/iv/
+    documentation: https://waterservices.usgs.gov/rest/IV-Service.html
+    example: http://waterservices.usgs.gov/nwis/iv/?sites=01646500&parameterCd=00060,00065
+
+note: get real time or some degree of water level data.
