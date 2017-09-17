@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Flash Point</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+  <!-- Custom styles for this template -->
+  <link href="css/agency.min.css" rel="stylesheet">
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2FF-XE0dh9aO6FQQrHkX2VWb3HghcnNM"></script>
+  <script src="/node_modules/heatmap.js/build/heatmap.js"></script>
+  <script src="/node_modules/heatmap.js/plugins/gmaps-heatmap/gmaps-heatmap.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <style>
+    #map-canvas {
+      height: 100%;
+      align-items: center;
+      display: block;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #share {
+      display: none;
+      float: right;
+      font-size: 14px;
+      line-height: 170%
+    }
+
+    .symbol {
+      display: inline!important;
+      float: right
+    }
+
+    .demo-wrapper {
+      position: relative
+    }
+
+    .timeline-wrapper {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      height: 30px;
+      background: #fff;
+      transition: 1s ease all;
+      border-radius: 4px;
+      box-shadow: 0 1px 5px rgba(0, 0, 0, .65)
+    }
+
+    .heatmap-timeline {
+      position: absolute;
+      top: 0;
+      right: 15px;
+      left: 80px;
+      height: 100%
+    }
+
+    .heatmap-timeline .line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 15px;
+      height: 2px;
+      background: #d7d7d7
+    }
+
+    .heatmap-timeline .time-point.active {
+      background: #000
+    }
+
+    .heatmap-timeline .time-point {
+      position: absolute;
+      background: #fff;
+      border: 2px solid #272727;
+      width: 8px;
+      height: 8px;
+      border-radius: 100%;
+      cursor: pointer;
+      top: 15px;
+      transform: translateX(-50%) translateY(-50%)
+    }
+
+    .heatmap-timeline .time-point:hover {
+      box-shadow: 0 0 5px black
+    }
+
+    .timeline-wrapper button {
+      position: absolute;
+      outline: none;
+      color: #000;
+      background: #f2f2f2;
+      width: 65px;
+      height: 100%;
+      cursor: pointer;
+      border: none;
+      text-transform: uppercase;
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px
+    }
+
+    .heatmap-timeline .time-point.active {
+      background: #000
+    }
+
+    .demo-wrapper {
+      height: 400px;
+      background: rgba(0, 0, 0, .03);
+      border: 3px solid black;
+    }
+
+    .heatmap {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="#page-top">Flash Point</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fa fa-bars"></i>
+        </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#services">Overview</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#portfolio">Prediction</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#about">Visualization</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#team">Team</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#contact">Sign Up</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <header class="masthead">
+    <div class="container">
+      <div class="intro-text">
+        <div class="intro-lead-in">Machine Learning Flood Prediction.</div>
+        <div class="intro-heading">This is Flash Point.</div>
+        <a class="btn btn-xl js-scroll-trigger" href="#services">Tell Me More</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Services -->
+  <section id="services">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading">Our Services</h2>
+          <h3 class="section-subheading text-muted">Machine learning about floods and stuff.</h3>
+        </div>
+      </div>
+      <div class="row text-center">
+        <div class="col-md-4">
+          <span class="fa-stack fa-4x">
+              <i class="fa fa-circle fa-stack-2x text-primary"></i>
+              <i class="fa fa-laptop fa-stack-1x fa-inverse"></i>
+            </span>
+          <h4 class="service-heading">Intelligent Flood Prediction</h4>
+          <p class="text-muted">Using machine learning, Flash Point determines with surprising accuracy whether an area is going to be flooded
+            at a certain day and time.</p>
+        </div>
+        <div class="col-md-4">
+          <span class="fa-stack fa-4x">
+              <i class="fa fa-circle fa-stack-2x text-primary"></i>
+              <i class="fa fa-map-o fa-stack-1x fa-inverse"></i>
+            </span>
+          <h4 class="service-heading">Accurate Data Visualization</h4>
+          <p class="text-muted">Processing multiple datasets in real time, Flash Point is able to generate heat maps of predicted floodings around
+            the world.</p>
+        </div>
+        <div class="col-md-4">
+          <span class="fa-stack fa-4x">
+              <i class="fa fa-circle fa-stack-2x text-primary"></i>
+              <i class="fa fa-clock-o fa-stack-1x fa-inverse"></i>
+            </span>
+          <h4 class="service-heading">Timely Flood Alerts</h4>
+          <p class="text-muted">Definitely a useful feature to have, users can sign on to our email list to be notified when a certain location
+            is going be flooded half a year in advance!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio Grid -->
+  <section class="bg-light" id="portfolio">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading">Prediction</h2>
+          <h3 class="section-subheading text-muted">There's no such thing as if, only when.</h3>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="example-date-input" class="col-4 col-form-label">Location</label>
+        <div class="col-10">
+          <select class="form-control">
+                <option>Iowa City, Iowa</option>
+          </select>
+        </div>
+
+      </div>
+      <div class="col-10">
+
+      </div>
+      <div class="form-group row">
+        <label for="example-date-input" class="col-1 col-form-label">Date</label>
+        <div class="col-3">
+          <input class="form-control" type="date" value="2021-08-19" id="example-date-input">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="example-time-input" class="col-1 col-form-label">Time</label>
+        <div class="col-3">
+          <input class="form-control" type="time" value="13:45:00" id="example-time-input">
+        </div>
+      </div>
+
+      <a class="btn" href="">Predict This Day</a>
+
+    </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading">Visualization</h2>
+          <h3 class="section-subheading text-muted">What you see is what everyone is gonna get.</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12" id="hide-when-generate-map">
+          <div class="form-group row">
+            <select class="form-control">
+                    <option>Iowa City, Iowa</option>
+                  </select>
+          </div>
+          <div class="form-group row">
+            <label for="example-datetime-local-input" class="col-2 col-form-label">From</label>
+            <div class="col-10">
+              <input class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="example-datetime-local-input" class="col-2 col-form-label">Till</label>
+            <div class="col-10">
+              <input class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input">
+            </div>
+          </div>
+          <a class="btn" id="generate-map">Generate Map</a>
+
+        </div>
+        <div class="col-lg-12 hidden" id="hide-when-no-map">
+
+          <div class="demo-wrapper">
+            <div class="heatmap" id="map-canvas"></div>
+            <div class="timeline-wrapper"></div>
+          </div>
+          <script>
+            $('#generate-map').click(function () {
+              $('#hide-when-generate-map').addClass('hidden');
+              $('#hide-when-no-map').removeClass('hidden');
+              var myLatlng = new google.maps.LatLng(41.6611, -91.5302);
+              // map options,
+              var myOptions = {
+                zoom: 5,
+                center: myLatlng
+              };
+              // standard map
+              map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+              console.log(map);
+              // heatmap layer
+              heatmap = new HeatmapOverlay(map,
+                {
+                  // radius should be small ONLY if scaleRadius is true (or small radius is intended)
+                  "radius": 2,
+                  "maxOpacity": 1,
+                  // scales the radius based on map zoom
+                  "scaleRadius": true,
+                  // if set to false the heatmap uses the global maximum for colorization
+                  // if activated: uses the data maximum within the current map boundaries 
+                  //   (there will always be a red spot with useLocalExtremas true)
+                  "useLocalExtrema": true,
+                  // which field name in your data represents the latitude - default "lat"
+                  latField: 'lat',
+                  // which field name in your data represents the longitude - default "lng"
+                  lngField: 'lng',
+                  // which field name in your data represents the data value - default "value"
+                  valueField: 'count'
+                }
+              );
+              var testData = {
+                max: 8,
+                data: [{ lat: 24.6408, lng: 46.7728, count: 3 }, { lat: 50.75, lng: -1.55, count: 1 }, { lat: 52.6333, lng: 1.75, count: 1 }, { lat: 48.15, lng: 9.4667, count: 1 }, { lat: 52.35, lng: 4.9167, count: 2 }, { lat: 60.8, lng: 11.1, count: 1 }, { lat: 43.561, lng: -116.214, count: 1 }, { lat: 47.5036, lng: -94.685, count: 1 }, { lat: 42.1818, lng: -71.1962, count: 1 }, { lat: 42.0477, lng: -74.1227, count: 1 }, { lat: 40.0326, lng: -75.719, count: 1 }, { lat: 40.7128, lng: -73.2962, count: 2 }, { lat: 27.9003, lng: -82.3024, count: 1 }, { lat: 38.2085, lng: -85.6918, count: 1 }, { lat: 46.8159, lng: -100.706, count: 1 }, { lat: 30.5449, lng: -90.8083, count: 1 }, { lat: 44.735, lng: -89.61, count: 1 }, { lat: 41.4201, lng: -75.6485, count: 2 }, { lat: 39.4209, lng: -74.4977, count: 1 }, { lat: 39.7437, lng: -104.979, count: 1 }, { lat: 39.5593, lng: -105.006, count: 1 }, { lat: 45.2673, lng: -93.0196, count: 1 }, { lat: 41.1215, lng: -89.4635, count: 1 }, { lat: 43.4314, lng: -83.9784, count: 1 }, { lat: 43.7279, lng: -86.284, count: 1 }, { lat: 40.7168, lng: -73.9861, count: 1 }, { lat: 47.7294, lng: -116.757, count: 1 }, { lat: 47.7294, lng: -116.757, count: 2 }, { lat: 35.5498, lng: -118.917, count: 1 }, { lat: 34.1568, lng: -118.523, count: 1 }, { lat: 39.501, lng: -87.3919, count: 3 }, { lat: 33.5586, lng: -112.095, count: 1 }, { lat: 38.757, lng: -77.1487, count: 1 }, { lat: 33.223, lng: -117.107, count: 1 }, { lat: 30.2316, lng: -85.502, count: 1 }, { lat: 39.1703, lng: -75.5456, count: 8 }, { lat: 30.0041, lng: -95.2984, count: 2 }, { lat: 29.7755, lng: -95.4152, count: 1 }, { lat: 41.8014, lng: -87.6005, count: 1 }, { lat: 37.8754, lng: -121.687, count: 7 }, { lat: 38.4493, lng: -122.709, count: 1 }, { lat: 40.5494, lng: -89.6252, count: 1 }, { lat: 42.6105, lng: -71.2306, count: 1 }, { lat: 40.0973, lng: -85.671, count: 1 }, { lat: 40.3987, lng: -86.8642, count: 1 }, { lat: 40.4224, lng: -86.8031, count: 4 }, { lat: 47.2166, lng: -122.451, count: 1 }, { lat: 32.2369, lng: -110.956, count: 1 }, { lat: 41.3969, lng: -87.3274, count: 2 }, { lat: 41.7364, lng: -89.7043, count: 2 }, { lat: 42.3425, lng: -71.0677, count: 1 }, { lat: 33.8042, lng: -83.8893, count: 1 }, { lat: 36.6859, lng: -121.629, count: 2 }, { lat: 41.0957, lng: -80.5052, count: 1 }, { lat: 46.8841, lng: -123.995, count: 1 }, { lat: 40.2851, lng: -75.9523, count: 2 }, { lat: 42.4235, lng: -85.3992, count: 1 }, { lat: 39.7437, lng: -104.979, count: 2 }, { lat: 25.6586, lng: -80.3568, count: 7 }, { lat: 33.0975, lng: -80.1753, count: 1 }, { lat: 25.7615, lng: -80.2939, count: 1 }, { lat: 26.3739, lng: -80.1468, count: 1 }, { lat: 37.6454, lng: -84.8171, count: 1 }, { lat: 34.2321, lng: -77.8835, count: 1 }, { lat: 34.6774, lng: -82.928, count: 1 }, { lat: 39.9744, lng: -86.0779, count: 1 }, { lat: 35.6784, lng: -97.4944, count: 2 }, { lat: 33.5547, lng: -84.1872, count: 1 }, { lat: 27.2498, lng: -80.3797, count: 1 }, { lat: 41.4789, lng: -81.6473, count: 1 }, { lat: 41.813, lng: -87.7134, count: 1 }, { lat: 41.8917, lng: -87.9359, count: 1 }, { lat: 35.0911, lng: -89.651, count: 1 }, { lat: 32.6102, lng: -117.03, count: 1 }, { lat: 41.758, lng: -72.7444, count: 1 }, { lat: 39.8062, lng: -86.1407, count: 1 }, { lat: 41.872, lng: -88.1662, count: 1 }, { lat: 34.1404, lng: -81.3369, count: 1 }, { lat: 46.15, lng: -60.1667, count: 1 }, { lat: 36.0679, lng: -86.7194, count: 1 }, { lat: 43.45, lng: -80.5, count: 1 }, { lat: 44.3833, lng: -79.7, count: 1 }, { lat: 45.4167, lng: -75.7, count: 2 }, { lat: 43.75, lng: -79.2, count: 2 }, { lat: 45.2667, lng: -66.0667, count: 3 }, { lat: 42.9833, lng: -81.25, count: 2 }, { lat: 44.25, lng: -79.4667, count: 3 }, { lat: 45.2667, lng: -66.0667, count: 2 }, { lat: 34.3667, lng: -118.478, count: 3 }, { lat: 42.734, lng: -87.8211, count: 1 }, { lat: 39.9738, lng: -86.1765, count: 1 }, { lat: 33.7438, lng: -117.866, count: 1 }, { lat: 37.5741, lng: -122.321, count: 1 }, { lat: 42.2843, lng: -85.2293, count: 1 }, { lat: 34.6574, lng: -92.5295, count: 1 }, { lat: 41.4881, lng: -87.4424, count: 1 }, { lat: 25.72, lng: -80.2707, count: 1 }, { lat: 34.5873, lng: -118.245, count: 1 }, { lat: 35.8278, lng: -78.6421, count: 1 }]
+              };
+              heatmap.setData(testData);
+
+              function generateRandomData(len) {
+                var points = []; var max = 0; var width = 840; var height = 400; while (len--) { var val = Math.floor(Math.random() * 100); max = Math.max(max, val); var point = { x: Math.floor(Math.random() * width), y: Math.floor(Math.random() * height), value: val }; points.push(point); }
+                var data = { max: max, data: points }; return data;
+              }
+              // creating a class to wrap the heatmap cycling logic
+              function AnimationPlayer(options) {
+                this.heatmap = options.heatmap;
+                this.data = options.data;
+                this.interval = null;
+                this.animationSpeed = options.animationSpeed || 300;
+                this.wrapperEl = options.wrapperEl;
+                this.isPlaying = false;
+                this.init();
+              };
+              // define the prototype functions
+              AnimationPlayer.prototype = {
+                init: function () {
+                  var dataLen = this.data.length;
+                  this.wrapperEl.innerHTML = '';
+                  var playButton = this.playButton = document.createElement('button');
+                  playButton.onclick = function () {
+                    if (this.isPlaying) {
+                      this.stop();
+                    } else {
+                      this.play();
+                    }
+                    this.isPlaying = !this.isPlaying;
+                  }.bind(this);
+                  playButton.innerText = 'play';
+
+                  this.wrapperEl.appendChild(playButton);
+
+                  var events = document.createElement('div');
+                  events.className = 'heatmap-timeline';
+                  events.innerHTML = '';
+
+                  for (var i = 0; i < dataLen; i++) {
+
+                    var xOffset = 100 / (dataLen - 1) * i;
+
+                    var ev = document.createElement('div');
+                    ev.className = 'time-point';
+                    ev.style.left = xOffset + '%';
+
+                    ev.onclick = (function (i) {
+                      return function () {
+                        this.isPlaying = false;
+                        this.stop();
+                        this.setFrame(i);
+                      }.bind(this);
+                    }.bind(this))(i);
+
+                    events.appendChild(ev);
+
+                  }
+                  this.wrapperEl.appendChild(events);
+                  this.setFrame(0);
+                },
+                play: function () {
+                  var dataLen = this.data.length;
+                  this.playButton.innerText = 'pause';
+                  this.interval = setInterval(function () {
+                    this.setFrame(++this.currentFrame % dataLen);
+                  }.bind(this), this.animationSpeed)
+                },
+                stop: function () {
+                  clearInterval(this.interval);
+                  this.playButton.innerText = 'play';
+                },
+                setFrame: function (frame) {
+                  this.currentFrame = frame;
+                  var snapshot = this.data[frame];
+                  this.heatmap.setData(snapshot);
+                  var timePoints = $('.heatmap-timeline .time-point');
+                  for (var i = 0; i < timePoints.length; i++) {
+                    timePoints[i].classList.remove('active');
+                  }
+                  timePoints[frame].classList.add('active');
+                },
+                setAnimationData: function (data) {
+                  this.isPlaying = false;
+                  this.stop();
+                  this.data = data;
+                  this.init();
+                },
+                setAnimationSpeed: function (speed) {
+                  this.isPlaying = false;
+                  this.stop();
+                  this.animationSpeed = speed;
+                }
+              };
+
+              var heatmapInstance = h337.create({
+                container: document.getElementById('map-canvas')
+              });
+
+              // animationData contains an array of heatmap data objects
+              var animationData = [];
+
+              // generate some heatmap data objects
+              for (var i = 0; i < 20; i++) {
+                animationData.push(generateRandomData(300));
+              }
+
+              var player = new AnimationPlayer({
+                heatmap: heatmapInstance,
+                wrapperEl: document.querySelector('.timeline-wrapper'),
+                data: animationData,
+                animationSpeed: 100
+              });
+            })
+            // map center
+          </script>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section class="bg-light" id="team">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading">Our Amazing Team</h2>
+          <h3 class="section-subheading text-muted">Passionate, engaged, driven to discover.</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="team-member">
+            <img class="mx-auto rounded-circle" src="img/team/shane.jpg" alt="">
+            <h4>Shane Ong</h4>
+            <p class="text-muted">Developer</p>
+            <ul class="list-inline social-buttons">
+              <li class="list-inline-item">
+                <a href="#">
+                        <i class="fa fa-twitter"></i>
+                      </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                        <i class="fa fa-facebook"></i>
+                      </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                        <i class="fa fa-linkedin"></i>
+                      </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="team-member">
+            <img class="mx-auto rounded-circle" src="img/team/marvin.jpg" alt="">
+            <h4>Marvin Vilaysack</h4>
+            <p class="text-muted">Developer</p>
+            <ul class="list-inline social-buttons">
+              <li class="list-inline-item">
+                <a href="#">
+                    <i class="fa fa-twitter"></i>
+                  </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                    <i class="fa fa-facebook"></i>
+                  </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                    <i class="fa fa-linkedin"></i>
+                  </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="team-member">
+            <img class="mx-auto rounded-circle" src="img/team/thomas.jpg" alt="">
+            <h4>Thomas Han</h4>
+            <p class="text-muted">Developer</p>
+            <ul class="list-inline social-buttons">
+              <li class="list-inline-item">
+                <a href="#">
+                    <i class="fa fa-twitter"></i>
+                  </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                    <i class="fa fa-facebook"></i>
+                  </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                    <i class="fa fa-linkedin"></i>
+                  </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="team-member">
+            <img class="mx-auto rounded-circle" src="img/team/matt.jpg" alt="">
+            <h4>Matt Haferbier</h4>
+            <p class="text-muted">Developer</p>
+            <ul class="list-inline social-buttons">
+              <li class="list-inline-item">
+                <a href="#">
+                    <i class="fa fa-twitter"></i>
+                  </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                    <i class="fa fa-facebook"></i>
+                  </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                    <i class="fa fa-linkedin"></i>
+                  </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+          <p class="large text-muted">Teamwork is the ability to work together toward a common vision. The ability to direct individual accomplishments
+            toward organizational objectives. It is the fuel that allows common people to attain uncommon results.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Clients -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 col-sm-6">
+          <a href="#">
+                  <img class="img-fluid d-block mx-auto" src="img/logos/cuahsi.jpg" alt="">
+                </a>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <a href="#">
+              <img class="img-fluid d-block mx-auto" src="img/logos/u-iowa.jpg" alt="">
+            </a>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <a href="#">
+              <img class="img-fluid d-block mx-auto" src="img/logos/umn.jpg" alt="">
+            </a>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+          <a href="#">
+              <img class="img-fluid d-block mx-auto" src="img/logos/mlh.jpg" alt="">
+            </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading">Let us Warn you</h2>
+          <h3 class="section-subheading text-muted">Timely alerts raise life-saving awareness. We will send you email notifications when FlashPoint predicts floods
+            in your area six months in advance.</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <form id="contactForm" name="sentMessage" novalidate>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input class="form-control" id="name" type="text" placeholder="Your Name *" required data-validation-required-message="Please enter your name.">
+                  <p class="help-block text-danger"></p>
+                </div>
+                <div class="form-group">
+                  <input class="form-control" id="email" type="email" placeholder="Your Email *" required data-validation-required-message="Please enter your email address.">
+                  <p class="help-block text-danger"></p>
+                </div>
+                <div class="form-group">
+                  <input class="form-control" id="phone" type="tel" placeholder="Location: Iowa City, Iowa" required data-validation-required-message="Please enter location to track.">
+                  <p class="help-block text-danger"></p>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <textarea class="form-control" id="message" placeholder="Your Message : We would love to hear from you." required data-validation-required-message="Please enter a message."></textarea>
+                  <p class="help-block text-danger"></p>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+              <div class="col-lg-12 text-center">
+                <div id="success"></div>
+                <button id="sendMessageButton" class="btn btn-xl" type="submit">Sign up for alerts</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <span class="copyright">Copyright &copy; FlashPoint 2017</span>
+        </div>
+        <div class="col-md-4">
+          <ul class="list-inline social-buttons">
+            <li class="list-inline-item">
+              <a href="#">
+                  <i class="fa fa-twitter"></i>
+                </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#">
+                  <i class="fa fa-facebook"></i>
+                </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#">
+                  <i class="fa fa-linkedin"></i>
+                </a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <ul class="list-inline quicklinks">
+            <li class="list-inline-item">
+              <a href="#">Privacy Policy</a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#">Terms of Use</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Portfolio Modals -->
+
+  <!-- Modal 1 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2>Project Name</h2>
+                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                <img class="img-fluid d-block mx-auto" src="img/portfolio/01-full.jpg" alt="">
+                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis
+                  dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate,
+                  maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                <ul class="list-inline">
+                  <li>Date: January 2017</li>
+                  <li>Client: Threads</li>
+                  <li>Category: Illustration</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                    <i class="fa fa-times"></i>
+                    Close Project</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2>Project Name</h2>
+                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                <img class="img-fluid d-block mx-auto" src="img/portfolio/02-full.jpg" alt="">
+                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis
+                  dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate,
+                  maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                <ul class="list-inline">
+                  <li>Date: January 2017</li>
+                  <li>Client: Explore</li>
+                  <li>Category: Graphic Design</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                    <i class="fa fa-times"></i>
+                    Close Project</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2>Project Name</h2>
+                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                <img class="img-fluid d-block mx-auto" src="img/portfolio/03-full.jpg" alt="">
+                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis
+                  dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate,
+                  maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                <ul class="list-inline">
+                  <li>Date: January 2017</li>
+                  <li>Client: Finish</li>
+                  <li>Category: Identity</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                    <i class="fa fa-times"></i>
+                    Close Project</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 4 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2>Project Name</h2>
+                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                <img class="img-fluid d-block mx-auto" src="img/portfolio/04-full.jpg" alt="">
+                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis
+                  dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate,
+                  maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                <ul class="list-inline">
+                  <li>Date: January 2017</li>
+                  <li>Client: Lines</li>
+                  <li>Category: Branding</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                    <i class="fa fa-times"></i>
+                    Close Project</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 5 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal5" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2>Project Name</h2>
+                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                <img class="img-fluid d-block mx-auto" src="img/portfolio/05-full.jpg" alt="">
+                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis
+                  dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate,
+                  maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                <ul class="list-inline">
+                  <li>Date: January 2017</li>
+                  <li>Client: Southwest</li>
+                  <li>Category: Website Design</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                    <i class="fa fa-times"></i>
+                    Close Project</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 6 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2>Project Name</h2>
+                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                <img class="img-fluid d-block mx-auto" src="img/portfolio/06-full.jpg" alt="">
+                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis
+                  dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate,
+                  maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                <ul class="list-inline">
+                  <li>Date: January 2017</li>
+                  <li>Client: Window</li>
+                  <li>Category: Photography</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                    <i class="fa fa-times"></i>
+                    Close Project</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/popper/popper.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Contact form JavaScript -->
+  <script src="js/jqBootstrapValidation.js"></script>
+  <script src="js/contact_me.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="js/agency.min.js"></script>
+
+</body>
+
+</html>
